@@ -1,0 +1,18 @@
+--Trigger for MySQL to generate an automatic date from another date field that can be filled in by the user or created by the system
+
+CREATE TABLE table_name (
+  id INT PRIMARY KEY,
+  dateFirst DATETIME DEFAULT NOW(),
+  dateLast DATETIME
+);
+
+DELIMITER $$
+CREATE TRIGGER calcular_data_devolucao
+BEFORE INSERT ON table_name FOR EACH ROW
+BEGIN
+	SET NEW.dateLast = DATE_ADD(NEW.dateFirst, INTERVAL 7 DAY);
+END
+$$
+DELIMITER ;
+
+--The number 7 can be changed to any value you want
